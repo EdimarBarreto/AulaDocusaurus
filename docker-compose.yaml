@@ -23,13 +23,13 @@ services:
     image: node:18
     profiles: ["deploy"]
     environment:
-      - GIT_USER="EdimarBarreto"
-      - GIT_PASS="123"
-      - GIT_NAME="EdimarBarreto"
-      - GIT_MAIL="edimardequadra@gmail.com"
-      - USE_SSH="false"
-      - CURRENT_BRANCH="main"
+      - GIT_USER=$GIT_USER
+      - GIT_PASS=$GIT_PASS
+      - GIT_NAME=$GIT_NAME
+      - GIT_MAIL=$GIT_MAIL
+      - USE_SSH=$USE_SSH
+      - CURRENT_BRANCH=$CURRENT_BRANCH
     volumes:
       - ./:/src
     working_dir: /src
-    command: bash -c "git config --global user.email edimardequadra@gmail.com && git config --global user.name EdimarBarreto && yarn deploy"
+    command: bash -c "git config --global user.email $GIT_MAIL && git config --global user.name $GIT_NAME && yarn deploy"
