@@ -1,0 +1,35 @@
+version: "3"
+services:
+  server:
+    image: node:18
+    volumes:
+      - ./:/src
+    ports:
+      - "3000:3000"
+    working_dir: /src
+    command: npx docusaurus start --host 0.0.0.0
+  web:
+    image: httpd
+    ports:
+      - "8080:80"
+  init:
+    image: node:18
+    profiles: ["init"]
+    volumes:
+      - ./:/src
+    working_dir: /src
+    command: npm install
+  deploy:
+    image: node:18
+    profiles: ["deploy"]
+    environment:
+      - GIT_USER="EdimarBarreto"
+      - GIT_PASS="123"
+      - GIT_NAME="EdimarBarreto"
+      - GIT_MAIL="edimardequadra@gmail.com"
+      - USE_SSH="false"
+      - CURRENT_BRANCH="main"
+    volumes:
+      - ./:/src
+    working_dir: /src
+    command: bash -c "git config --global user.email edimardequadra@gmail.com && git config --global user.name EdimarBarreto && yarn deploy"
